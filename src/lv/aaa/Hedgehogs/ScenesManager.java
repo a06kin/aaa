@@ -1,6 +1,7 @@
 package lv.aaa.Hedgehogs;
 
 import lv.aaa.Hedgehogs.scenes.BaseScene;
+import lv.aaa.Hedgehogs.scenes.GameScene;
 import lv.aaa.Hedgehogs.scenes.MenuScene;
 import lv.aaa.Hedgehogs.scenes.SplashScene;
 import org.andengine.engine.Engine;
@@ -51,11 +52,32 @@ public class ScenesManager {
         }
     }
 
+    public void createGameScene() {
+        ResourcesManager.getInstance().loadGameResources();
+        gameScene = new GameScene();
+        setScene(gameScene);
+        disposeMenuScene();
+    }
+
+    public void disposeGameScene() {
+//        TODO unload menu resources
+        gameScene.disposeScene();
+        gameScene = null;
+    }
+
     public void createMenuScene() {
         ResourcesManager.getInstance().loadMenuResources();
         menuScene = new MenuScene();
         setScene(menuScene);
-        disposeSplashScene();
+        if (currentScene.equals(splashScene)) {
+            disposeSplashScene();
+        }
+    }
+
+    public void disposeMenuScene() {
+//        TODO unload menu resources
+        menuScene.disposeScene();
+        menuScene = null;
     }
 
     public void createSplashScene(OnCreateSceneCallback pOnCreateSceneCallback) {

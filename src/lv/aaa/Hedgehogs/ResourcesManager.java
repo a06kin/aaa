@@ -11,6 +11,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
@@ -23,7 +24,24 @@ public class ResourcesManager {
     public Camera camera;
     public VertexBufferObjectManager vbom;
 
+    private BuildableBitmapTextureAtlas cellBackGrounds;
+    private BuildableBitmapTextureAtlas menuTextureAtlas;
+    private BitmapTextureAtlas splashTextureAtlas;
     private ITextureRegion splashRegion;
+    private TextureRegion cellRegion;
+    private TextureRegion cellPressedRegion;
+
+    public TextureRegion getCellRegion() {
+        return cellRegion;
+    }
+
+    public TextureRegion getCellPressedRegion() {
+        return cellPressedRegion;
+    }
+
+    public BuildableBitmapTextureAtlas getCellBackGrounds() {
+        return cellBackGrounds;
+    }
 
     public ITextureRegion getMenuBgRegion() {
         return menuBgRegion;
@@ -49,9 +67,6 @@ public class ResourcesManager {
     private ITextureRegion playButtonRegion;
     private ITextureRegion optionsButtonRegion;
     private ITextureRegion exitButtonRegion;
-
-    private BuildableBitmapTextureAtlas menuTextureAtlas;
-    private BitmapTextureAtlas splashTextureAtlas;
 
     public void loadMenuResources() {
         loadMenuGraphics();
@@ -86,7 +101,17 @@ public class ResourcesManager {
     }
 
     private void loadGameGraphics() {
-
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+        cellBackGrounds = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 128, 64, TextureOptions.BILINEAR);
+        cellRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "cell.png");
+        cellPressedRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "cell_pressed.png");
+        try {
+            this.cellBackGrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 0));
+            this.cellBackGrounds.load();
+        }
+        catch (final ITextureAtlasBuilder.TextureAtlasBuilderException e) {
+            Debug.e(e);
+        }
     }
 
     private void loadGameFonts() {

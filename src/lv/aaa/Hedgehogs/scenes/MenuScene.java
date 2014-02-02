@@ -29,10 +29,10 @@ public class MenuScene extends BaseScene {
                 switch(pSceneTouchEvent.getAction()) {
                     case TouchEvent.ACTION_DOWN:
                         this.setScale(1.2f);
-
                         break;
                     case TouchEvent.ACTION_UP:
                         this.setScale(1.0f);
+                        ScenesManager.getInstance().createGameScene();
                         break;
                 }
                 return true;
