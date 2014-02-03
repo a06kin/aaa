@@ -15,10 +15,10 @@ public class Board {
     public Board(Scene scene) {
         this.scene = scene;
         board = askBoard();
-        drawBoard(board);
+        drawBoard();
     }
 
-    private void drawBoard(String[][] board) {
+    private void drawBoard() {
         float width = ResourcesManager.getInstance().getCellRegion().getWidth();
         Scene childScene = new Scene();
         childScene.setPosition((GameController.CAMERA_WIDTH - width * this.size) / 2 + width / 2,
@@ -26,11 +26,15 @@ public class Board {
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 if (board[y][x].equals("c")) {
-                    childScene.attachChild(new Sprite(width * x, -width * y, ResourcesManager.getInstance().getCellRegion(),
-                            ResourcesManager.getInstance().vbom));
+                    Sprite cell = new Sprite(width * x, -width * y, ResourcesManager.getInstance().getCellRegion(),
+                            ResourcesManager.getInstance().vbom);
+                    childScene.registerTouchArea(cell);
+                    childScene.attachChild(cell);
                 } else {
-                    childScene.attachChild(new Sprite(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
-                            ResourcesManager.getInstance().vbom));
+                    Sprite cell = new Sprite(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
+                            ResourcesManager.getInstance().vbom);
+                    childScene.registerTouchArea(cell);
+                    childScene.attachChild(cell);
                 }
             }
         }

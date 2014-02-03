@@ -3,6 +3,7 @@ package lv.aaa.Hedgehogs.scenes;
 import android.os.Process;
 import lv.aaa.Hedgehogs.GameController;
 import lv.aaa.Hedgehogs.ScenesManager;
+import lv.aaa.Hedgehogs.SpriteButton;
 import lv.aaa.Hedgehogs.scenes.BaseScene;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.SpriteBackground;
@@ -22,7 +23,7 @@ public class MenuScene extends BaseScene {
                 GameController.CAMERA_HEIGHT * 0.5f, GameController.CAMERA_WIDTH, GameController.CAMERA_HEIGHT,
                 resourcesManager.getMenuBgRegion(), vbom));
 
-        this.play = new Sprite(0, 70, resourcesManager.getPlayButtonRegion(), vbom) {
+        this.play = new SpriteButton(0, 70, resourcesManager.getPlayButtonRegion(), vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {
@@ -32,14 +33,16 @@ public class MenuScene extends BaseScene {
                         break;
                     case TouchEvent.ACTION_UP:
                         this.setScale(1.0f);
-                        ScenesManager.getInstance().createGameScene();
+                        if (this.isTouchInSpriteArea(pTouchAreaLocalX, pTouchAreaLocalY)) {
+                            ScenesManager.getInstance().createGameScene();
+                        }
                         break;
                 }
                 return true;
             }
         };
 
-        this.options = new Sprite(0, 0, resourcesManager.getOptionsButtonRegion(), vbom) {
+        this.options = new SpriteButton(0, 0, resourcesManager.getOptionsButtonRegion(), vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {
@@ -56,7 +59,7 @@ public class MenuScene extends BaseScene {
             }
         };
 
-        this.exit = new Sprite(0, -70, resourcesManager.getExitButtonRegion(), vbom) {
+        this.exit = new SpriteButton(0, -70, resourcesManager.getExitButtonRegion(), vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {
@@ -66,7 +69,9 @@ public class MenuScene extends BaseScene {
                         break;
                     case TouchEvent.ACTION_UP:
                         this.setScale(1.0f);
-                        Process.killProcess(Process.myPid());
+                        if (this.isTouchInSpriteArea(pTouchAreaLocalX, pTouchAreaLocalY)) {
+                            Process.killProcess(Process.myPid());
+                        }
                         break;
                 }
                 return true;
