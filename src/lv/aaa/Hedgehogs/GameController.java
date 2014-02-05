@@ -13,14 +13,13 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class GameController extends BaseGameActivity {
 
     public static final int CAMERA_WIDTH = 800;
     public static final int CAMERA_HEIGHT = 480;
     private final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-
-    private ResourcesManager resourcesManager;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
@@ -33,7 +32,6 @@ public class GameController extends BaseGameActivity {
     @Override
     public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback) throws IOException {
         ResourcesManager.prepareManager(mEngine, this, camera, getVertexBufferObjectManager());
-        resourcesManager = ResourcesManager.getInstance();
         pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
 
@@ -63,6 +61,16 @@ public class GameController extends BaseGameActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             ScenesManager.getInstance().getCurrentScene().onBackKeyPressed();
+        }
+        return false;
+    }
+
+    public static long lDateTime = new Date().getTime();
+    public static boolean isTouchPausePassed(){
+        long lDateCurrentTime = new Date().getTime();
+        if(lDateCurrentTime - lDateTime > 500) {
+            lDateTime = lDateCurrentTime;
+            return true;
         }
         return false;
     }

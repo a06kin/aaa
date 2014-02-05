@@ -1,7 +1,6 @@
 package lv.aaa.Hedgehogs;
 
-import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.Sprite;
+import lv.aaa.Hedgehogs.scenes.GameScene;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,9 +9,9 @@ import org.json.simple.parser.ParseException;
 public class Board {
     private String[][] board;
     private int size;
-    Scene scene;
+    private GameScene scene;
 
-    public Board(Scene scene) {
+    public Board(GameScene scene) {
         this.scene = scene;
         board = askBoard();
         drawBoard();
@@ -20,25 +19,22 @@ public class Board {
 
     private void drawBoard() {
         float width = ResourcesManager.getInstance().getCellRegion().getWidth();
-        Scene childScene = new Scene();
-        childScene.setPosition((GameController.CAMERA_WIDTH - width * this.size) / 2 + width / 2,
+        this.scene.setPosition((GameController.CAMERA_WIDTH - width * this.size) / 2 + width / 2,
                 GameController.CAMERA_HEIGHT - (GameController.CAMERA_HEIGHT - width * this.size) / 2 - width / 2);
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 if (board[y][x].equals("c")) {
-                    Sprite cell = new Sprite(width * x, -width * y, ResourcesManager.getInstance().getCellRegion(),
-                            ResourcesManager.getInstance().vbom);
-                    childScene.registerTouchArea(cell);
-                    childScene.attachChild(cell);
+                    Cell cell = new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellRegion(),
+                            ResourcesManager.getInstance().vbom, scene);
+                    this.scene.registerTouchArea(cell);
+                    this.scene.attachChild(cell);
                 } else {
-                    Sprite cell = new Sprite(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
-                            ResourcesManager.getInstance().vbom);
-                    childScene.registerTouchArea(cell);
-                    childScene.attachChild(cell);
+                    Cell cell = new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
+                            ResourcesManager.getInstance().vbom, scene);
+                    this.scene.attachChild(cell);
                 }
             }
         }
-        scene.setChildScene(childScene);
     }
 
     private String[][] askBoard() {
@@ -52,7 +48,6 @@ public class Board {
                 "[\"c\",\"x\",\"c\",\"c\",\"c\",\"c\"]," +
                 "[\"c\",\"2\",\"2\",\"1\",\"c\",\"0\"]" +
                 "]}";
-
 
         JSONParser parser = new JSONParser();
         JSONObject obj = null;

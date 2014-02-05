@@ -28,15 +28,30 @@ public class ResourcesManager {
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BitmapTextureAtlas splashTextureAtlas;
     private ITextureRegion splashRegion;
-    private TextureRegion cellRegion;
-    private TextureRegion cellPressedRegion;
+    private ITextureRegion cellRegion;
+    private ITextureRegion cellPressedRegion;
+    private ITextureRegion cellHoverRegion;
+    private ITextureRegion flagRegion;
+    private ITextureRegion checkRegion;
 
-    public TextureRegion getCellRegion() {
+    public ITextureRegion getCellRegion() {
         return cellRegion;
     }
 
-    public TextureRegion getCellPressedRegion() {
+    public ITextureRegion getCellPressedRegion() {
         return cellPressedRegion;
+    }
+
+    public ITextureRegion getCellHoverRegion() {
+        return cellHoverRegion;
+    }
+
+    public ITextureRegion getFlagRegion() {
+        return flagRegion;
+    }
+
+    public ITextureRegion getCheckRegion() {
+        return checkRegion;
     }
 
     public BuildableBitmapTextureAtlas getCellBackGrounds() {
@@ -102,11 +117,14 @@ public class ResourcesManager {
 
     private void loadGameGraphics() {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-        cellBackGrounds = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 128, 64, TextureOptions.BILINEAR);
+        cellBackGrounds = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
         cellRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "cell.png");
         cellPressedRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "cell_pressed.png");
+        cellHoverRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "selection.png");
+        flagRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "flag.png");
+        checkRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "check.png");
         try {
-            this.cellBackGrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1, 1, 0));
+            this.cellBackGrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
             this.cellBackGrounds.load();
         }
         catch (final ITextureAtlasBuilder.TextureAtlasBuilderException e) {
