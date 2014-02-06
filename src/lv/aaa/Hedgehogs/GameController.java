@@ -26,6 +26,7 @@ public class GameController extends BaseGameActivity {
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
         engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
         engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
+        engineOptions.getTouchOptions().setNeedsMultiTouch(false);
         return engineOptions;
     }
 
@@ -68,7 +69,7 @@ public class GameController extends BaseGameActivity {
     public static long lDateTime = new Date().getTime();
     public static boolean isTouchPausePassed(){
         long lDateCurrentTime = new Date().getTime();
-        if(lDateCurrentTime - lDateTime > 500) {
+        if(lDateCurrentTime - lDateTime > 250) {
             lDateTime = lDateCurrentTime;
             return true;
         }

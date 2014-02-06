@@ -23,10 +23,10 @@ public class GameScene extends BaseScene {
                 resourcesManager.getMenuBgRegion(), vbom)));*/
 
         this.setBackground(new Background(Color.BLACK));
-        cellPopup = new CellPopup(this);
         new Board(this);
-
-        this.attachChild(cellPopup);
+        cellPopup = new CellPopup(this);
+        new MyParticles(this);
+        this.setTouchAreaBindingOnActionDownEnabled(true);
     }
 
     @Override

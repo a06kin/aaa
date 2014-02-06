@@ -2,7 +2,6 @@ package lv.aaa.Hedgehogs;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
-import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -33,6 +32,17 @@ public class ResourcesManager {
     private ITextureRegion cellHoverRegion;
     private ITextureRegion flagRegion;
     private ITextureRegion checkRegion;
+
+    public TextureRegion getSpark1Region() {
+        return spark1Region;
+    }
+
+    public TextureRegion getSpark2Region() {
+        return spark2Region;
+    }
+
+    private TextureRegion spark1Region;
+    private TextureRegion spark2Region;
 
     public ITextureRegion getCellRegion() {
         return cellRegion;
@@ -123,8 +133,10 @@ public class ResourcesManager {
         cellHoverRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "selection.png");
         flagRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "flag.png");
         checkRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "check.png");
+        spark1Region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "spark1.png");
+        spark2Region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "spark2.png");
         try {
-            this.cellBackGrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+            this.cellBackGrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 1));
             this.cellBackGrounds.load();
         }
         catch (final ITextureAtlasBuilder.TextureAtlasBuilderException e) {

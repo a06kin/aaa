@@ -13,6 +13,7 @@ public class Cell extends SpriteButton {
                 GameScene scene) {
         super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
         this.scene = scene;
+        this.scene.attachChild(this);
     }
 
     @Override
@@ -22,12 +23,10 @@ public class Cell extends SpriteButton {
             switch(pSceneTouchEvent.getAction()) {
                 case TouchEvent.ACTION_DOWN:
                     if (scene.cellPopup.currentCell != null && scene.cellPopup.currentCell.equals(this)) {
-                        scene.cellPopup.currentCell = null;
-                        scene.cellPopup.setVisible(false);
+                        scene.cellPopup.hidePopup();
                     } else if (scene.cellPopup.currentCell == null) {
                         scene.cellPopup.currentCell = this;
-                        scene.cellPopup.setPosition(this.getX(), this.getY());
-                        scene.cellPopup.setVisible(true);
+                        scene.cellPopup.showPopup(this.getX(), this.getY());
                     }
                     break;
                 case TouchEvent.ACTION_MOVE:
@@ -38,8 +37,7 @@ public class Cell extends SpriteButton {
                     break;
             }
         }
-        return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
-                pTouchAreaLocalY);
+        return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
     }
 
 }
