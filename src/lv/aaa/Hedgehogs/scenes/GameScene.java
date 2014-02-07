@@ -2,9 +2,10 @@ package lv.aaa.Hedgehogs.scenes;
 
 import lv.aaa.Hedgehogs.Board;
 import lv.aaa.Hedgehogs.CellPopup;
+import lv.aaa.Hedgehogs.GameController;
 import lv.aaa.Hedgehogs.ScenesManager;
-import org.andengine.entity.scene.background.Background;
-import org.andengine.util.adt.color.Color;
+import org.andengine.entity.scene.background.SpriteBackground;
+import org.andengine.entity.sprite.Sprite;
 
 public class GameScene extends BaseScene {
 
@@ -18,11 +19,13 @@ public class GameScene extends BaseScene {
 
     @Override
     public void createScene() {
-        /*this.setBackground(new SpriteBackground(new Sprite(GameController.CAMERA_WIDTH * 0.5f,
+        /*this.setBackground(new SpriteBackground());*/
+        SpriteBackground spriteBackground = new SpriteBackground(1.0f, 1.0f, 1.0f, new Sprite(GameController.CAMERA_WIDTH * 0.5f,
                 GameController.CAMERA_HEIGHT * 0.5f, GameController.CAMERA_WIDTH, GameController.CAMERA_HEIGHT,
-                resourcesManager.getMenuBgRegion(), vbom)));*/
+                resourcesManager.getGameBgRegion(), vbom));
+        this.setBackground(spriteBackground);
+        this.setBackgroundEnabled(true);
 
-        this.setBackground(new Background(Color.BLACK));
         new Board(this);
         cellPopup = new CellPopup(this);
         new MyParticles(this);

@@ -11,7 +11,7 @@ public class Cell extends SpriteButton {
 
     public Cell(float pX, float pY, ITextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager,
                 GameScene scene) {
-        super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
+        super(pX, pY, GameController.CELL_SIZE, GameController.CELL_SIZE, pTextureRegion, pVertexBufferObjectManager);
         this.scene = scene;
         this.scene.attachChild(this);
     }

@@ -1,6 +1,7 @@
 package lv.aaa.Hedgehogs;
 
 import lv.aaa.Hedgehogs.scenes.GameScene;
+import org.andengine.entity.sprite.Sprite;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,22 +14,24 @@ public class Board {
 
     public Board(GameScene scene) {
         this.scene = scene;
+        Sprite boardBg = new Sprite(150, -150,
+                ResourcesManager.getInstance().getBoardBgRegion(), ResourcesManager.getInstance().vbom);
+        this.scene.attachChild(boardBg);
         board = askBoard();
         drawBoard();
     }
 
     private void drawBoard() {
-        float width = ResourcesManager.getInstance().getCellRegion().getWidth();
-        this.scene.setPosition((GameController.CAMERA_WIDTH - width * this.size) / 2 + width / 2,
-                GameController.CAMERA_HEIGHT - (GameController.CAMERA_HEIGHT - width * this.size) / 2 - width / 2);
+        this.scene.setPosition((GameController.CAMERA_WIDTH - GameController.CELL_SIZE * this.size) / 2 + GameController.CELL_SIZE / 2,
+                GameController.CELL_SIZE * this.size + 30);
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 if (board[y][x].equals("c")) {
-                    Cell cell = new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellRegion(),
+                    Cell cell = new Cell(GameController.CELL_SIZE * x, -GameController.CELL_SIZE * y, ResourcesManager.getInstance().getCellRegion(),
                             ResourcesManager.getInstance().vbom, scene);
                     this.scene.registerTouchArea(cell);
                 } else {
-                    new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
+                    new Cell(GameController.CELL_SIZE * x, -GameController.CELL_SIZE * y, ResourcesManager.getInstance().getCellPressedRegion(),
                             ResourcesManager.getInstance().vbom, scene);
                 }
             }
@@ -55,7 +58,7 @@ public class Board {
             e.printStackTrace();
         }
         JSONArray array;
-        String[][] result = null;
+        String[][] result;
         this.size = Integer.parseInt(obj.get("size").toString());
         array = (JSONArray) obj.get("data");
         result = new String[size][size];

@@ -21,16 +21,16 @@ public class MyParticles {
     }
 
     public MyParticles(Scene scene) {
-        RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(100, 180, GameController.CAMERA_WIDTH, 50);
-        BatchedSpriteParticleSystem spriteParticleSystem = new BatchedSpriteParticleSystem(particleEmitter, 10, 15, 200,
+        RectangleParticleEmitter particleEmitter = new RectangleParticleEmitter(100, GameController.CELL_SIZE * 6 + 380, GameController.CAMERA_WIDTH, 50);
+        BatchedSpriteParticleSystem spriteParticleSystem = new BatchedSpriteParticleSystem(particleEmitter, 5, 10, 200,
                 ResourcesManager.getInstance().getSpark1Region(), ResourcesManager.getInstance().vbom);
-        spriteParticleSystem.addParticleInitializer(new ExpireParticleInitializer<UncoloredSprite>(10, 10));
+        spriteParticleSystem.addParticleInitializer(new ExpireParticleInitializer<UncoloredSprite>(20));
         spriteParticleSystem.addParticleInitializer(new ColorParticleInitializer<UncoloredSprite>(Color.WHITE));
         spriteParticleSystem.addParticleInitializer(new MyGravityParticleInitializer<UncoloredSprite>());
         spriteParticleSystem.addParticleInitializer(new ScaleParticleInitializer<UncoloredSprite>(0.5f));
         spriteParticleSystem.addParticleInitializer(new AlphaParticleInitializer<UncoloredSprite>(0.8f, 0.9f));
         spriteParticleSystem.addParticleModifier(new RotationParticleModifier<UncoloredSprite>(0, 10, 0, 2000));
-        scene.attachChild(spriteParticleSystem);
+//        scene.attachChild(spriteParticleSystem);
     }
 
 }

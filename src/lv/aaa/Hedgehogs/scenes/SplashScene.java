@@ -1,5 +1,6 @@
 package lv.aaa.Hedgehogs.scenes;
 
+import lv.aaa.Hedgehogs.GameController;
 import lv.aaa.Hedgehogs.ScenesManager.SceneType;
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
@@ -20,7 +21,7 @@ public class SplashScene extends BaseScene {
         };
 
         splash.setScale(1.5f);
-        splash.setPosition(400, 240);
+        splash.setPosition(GameController.CAMERA_WIDTH / 2, GameController.CAMERA_HEIGHT / 2);
         attachChild(splash);
     }
 

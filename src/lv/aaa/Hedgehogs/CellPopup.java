@@ -18,7 +18,7 @@ public class CellPopup extends Sprite {
     public Cell currentCell = null;
     private Sprite check, setFlag;
     private SequenceEntityModifier sequenceEntityModifier;
-    private float offset = ResourcesManager.getInstance().getCellHoverRegion().getWidth() / 2;
+    private float offset = GameController.CELL_SIZE / 2;
 
     public CellPopup(GameScene scene) {
         this(0, 0, ResourcesManager.getInstance().getCellHoverRegion(), ResourcesManager.getInstance().vbom, scene);
@@ -43,7 +43,7 @@ public class CellPopup extends Sprite {
 
     public CellPopup(float pX, float pY, ITextureRegion pTextureRegion,
                      VertexBufferObjectManager pVertexBufferObjectManager, final GameScene scene) {
-        super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
+        super(pX, pY, GameController.CELL_SIZE, GameController.CELL_SIZE, pTextureRegion, pVertexBufferObjectManager);
         this.scene = scene;
         this.sequenceEntityModifier = new SequenceEntityModifier(
                 new ScaleModifier(0.5f, 0, 1.3f),
@@ -55,7 +55,7 @@ public class CellPopup extends Sprite {
         this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(
                 new AlphaModifier(0.4f, 1, 0), new AlphaModifier(0.2f, 0, 1)
         )));
-        check = new SpriteButton(this.getX() + offset - 40, offset,
+        check = new SpriteButton(this.getX() + offset - GameController.CELL_SIZE, offset, GameController.CELL_SIZE, GameController.CELL_SIZE,
                 ResourcesManager.getInstance().getCheckRegion(), ResourcesManager.getInstance().vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
@@ -74,7 +74,7 @@ public class CellPopup extends Sprite {
                         pTouchAreaLocalY);
             }
         };
-        setFlag = new SpriteButton(this.getX() + offset + 40, offset,
+        setFlag = new SpriteButton(this.getX() + offset + GameController.CELL_SIZE, offset, GameController.CELL_SIZE, GameController.CELL_SIZE,
                 ResourcesManager.getInstance().getFlagRegion(), ResourcesManager.getInstance().vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
