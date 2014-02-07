@@ -27,11 +27,9 @@ public class Board {
                     Cell cell = new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellRegion(),
                             ResourcesManager.getInstance().vbom, scene);
                     this.scene.registerTouchArea(cell);
-                    this.scene.attachChild(cell);
                 } else {
-                    Cell cell = new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
+                    new Cell(width * x, -width * y, ResourcesManager.getInstance().getCellPressedRegion(),
                             ResourcesManager.getInstance().vbom, scene);
-                    this.scene.attachChild(cell);
                 }
             }
         }
