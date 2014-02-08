@@ -1,5 +1,7 @@
-package lv.aaa.Hedgehogs;
+package lv.aaa.Hedgehogs.board;
 
+import lv.aaa.Hedgehogs.GameController;
+import lv.aaa.Hedgehogs.ResourcesManager;
 import lv.aaa.Hedgehogs.scenes.GameScene;
 import org.andengine.entity.sprite.Sprite;
 import org.json.simple.JSONArray;
@@ -18,6 +20,8 @@ public class Board {
                 ResourcesManager.getInstance().getBoardBgRegion(), ResourcesManager.getInstance().vbom);
         this.scene.attachChild(boardBg);
         board = askBoard();
+//        this.size = GameController.CELL_COUNT_ROW;
+//        board = Generator.generateFullBoard();
         drawBoard();
     }
 

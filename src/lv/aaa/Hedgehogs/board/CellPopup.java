@@ -1,13 +1,18 @@
-package lv.aaa.Hedgehogs;
+package lv.aaa.Hedgehogs.board;
 
 import android.opengl.GLES20;
 import android.widget.Toast;
+import lv.aaa.Hedgehogs.GameController;
+import lv.aaa.Hedgehogs.ResourcesManager;
+import lv.aaa.Hedgehogs.SpriteButton;
 import lv.aaa.Hedgehogs.scenes.GameScene;
-import org.andengine.entity.Entity;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -20,13 +25,13 @@ public class CellPopup extends Sprite {
     private Sprite check, setFlag;
     private SequenceEntityModifier sequenceEntityModifier;
     private float offset = GameController.CELL_SIZE / 2;
+    private boolean isLoading = false;
 
     public CellPopup(GameScene scene) {
         this(0, 0, ResourcesManager.getInstance().getCellHoverRegion(), ResourcesManager.getInstance().vbom, scene);
     }
 
     public void hidePopup() {
-        this.currentCell = null;
         this.setVisible(false);
         scene.setOnAreaTouchTraversalBackToFront();
     }
@@ -62,13 +67,31 @@ public class CellPopup extends Sprite {
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {
                 if (GameController.isTouchPausePassed()) {
-//                    TODO
-                    if (currentCell != null) {
-                        new CellText(currentCell.getX(), currentCell.getY(), ResourcesManager.getInstance().getCellPressedRegion(),
-                                ResourcesManager.getInstance().vbom, scene, "0");
-                        scene.detachChild(currentCell);
+                    if (currentCell != null && !isLoading) {
+                        isLoading = true;
+                        final float currentPosX = currentCell.getX();
+                        final float currentPosY = currentCell.getY();
+                        final AnimatedSprite loading = new AnimatedSprite(currentPosX, currentPosY,
+                                ResourcesManager.getInstance().getLoadingRegion(), ResourcesManager.getInstance().vbom);
+                        loading.animate(90);
+                        loading.setScale(0.65f);
+                        scene.attachChild(loading);
                         CellPopup.this.hidePopup();
+                        scene.unregisterTouchArea(currentCell);
+                        ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(2f, new ITimerCallback() {
+                            public void onTimePassed(final TimerHandler pTimerHandler) {
+                                ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+                                scene.detachChild(currentCell);
+                                currentCell = null;
+                                new CellText(currentPosX, currentPosY, ResourcesManager.getInstance().getCellPressedRegion(),
+                                        ResourcesManager.getInstance().vbom, scene, "0");
+                                scene.detachChild(loading);
+                                isLoading = false;
+//                                TODO send request and update table
+                            }
+                        }));
                     }
+                    isLoading = false;
                     return true;
                 }
                 return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,

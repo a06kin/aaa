@@ -1,6 +1,5 @@
 package lv.aaa.Hedgehogs;
 
-import android.graphics.Typeface;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.opengl.font.Font;
@@ -14,9 +13,8 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.util.adt.color.Color;
 import org.andengine.util.debug.Debug;
 
 public class ResourcesManager {
@@ -50,30 +48,52 @@ public class ResourcesManager {
     private ITextureRegion spark1Region;
     private ITextureRegion spark2Region;
 
-    private StrokeFont fontAdOneToNoone;
-    private TextureRegion cakeRegion;
-    private TextureRegion donutRegion;
-    private TextureRegion blueberryRegion;
+    private ITextureRegion cakeRegion;
+    private ITextureRegion donutRegion;
+    private ITextureRegion blueberryRegion;
+    private ITextureRegion attackRegion;
+    private ITextureRegion progressBarRegion;
 
-    private TextureRegion attackRegion;
+    private StrokeFont fontAdOneToNoone36;
+    private Font fontAdOneToNoone6;
 
-    public StrokeFont getFontAdOneToNoone() {
-        return fontAdOneToNoone;
+    private TiledTextureRegion loadingRegion;
+
+    private TiledTextureRegion playerRegion;
+
+    public TiledTextureRegion getLoadingRegion() {
+        return loadingRegion;
     }
 
-    public TextureRegion getAttackRegion() {
+    public TiledTextureRegion getPlayerRegion() {
+        return playerRegion;
+    }
+
+    public Font getFontAdOneToNoone6() {
+        return fontAdOneToNoone6;
+    }
+
+    public StrokeFont getFontAdOneToNoone36() {
+        return fontAdOneToNoone36;
+    }
+
+    public ITextureRegion getProgressBarRegion() {
+        return progressBarRegion;
+    }
+
+    public ITextureRegion getAttackRegion() {
         return attackRegion;
     }
 
-    public TextureRegion getDonutRegion() {
+    public ITextureRegion getDonutRegion() {
         return donutRegion;
     }
 
-    public TextureRegion getCakeRegion() {
+    public ITextureRegion getCakeRegion() {
         return cakeRegion;
     }
 
-    public TextureRegion getBlueberryRegion() {
+    public ITextureRegion getBlueberryRegion() {
         return blueberryRegion;
     }
 
@@ -169,16 +189,24 @@ public class ResourcesManager {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
         FontFactory.setAssetBasePath("fonts/");
 
-        BitmapTextureAtlas fontAdOneToNoonePinkSmallTexture = new BitmapTextureAtlas(gameController.getTextureManager(),
+        BitmapTextureAtlas fontAdOneToNooneTexture = new BitmapTextureAtlas(gameController.getTextureManager(),
                 1024, 128, TextureOptions.BILINEAR);
-        fontAdOneToNoone = FontFactory.createStrokeFromAsset(gameController.getFontManager(),
-                fontAdOneToNoonePinkSmallTexture, gameController.getAssets(), "AnOdeToNoone.ttf", 36, true,
+        fontAdOneToNoone36 = FontFactory.createStrokeFromAsset(gameController.getFontManager(),
+                fontAdOneToNooneTexture, gameController.getAssets(), "AnOdeToNoone.ttf", 36, true,
                 android.graphics.Color.WHITE, 1, android.graphics.Color.rgb(0, 0, 0));
-        fontAdOneToNoone.load();
-        fontAdOneToNoonePinkSmallTexture.load();
+        fontAdOneToNoone36.load();
+        BitmapTextureAtlas fontAdOneToNooneTexture2 = new BitmapTextureAtlas(gameController.getTextureManager(),
+                128, 128, TextureOptions.BILINEAR);
+        fontAdOneToNoone6 = FontFactory.createFromAsset(gameController.getFontManager(), fontAdOneToNooneTexture2,
+                gameController.getAssets(), "AnOdeToNoone.ttf", 12, true, android.graphics.Color.WHITE);
+        fontAdOneToNoone6.load();
+        fontAdOneToNooneTexture.load();
+        fontAdOneToNooneTexture2.load();
 
         bg = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
         gameBgRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bg, gameController, "game_bg.png");
+        loadingRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bg, gameController, "loading.png", 4, 1);
+        playerRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bg, gameController, "player.png", 3, 4);
 
         cellBackgrounds = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
         cellRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "cell.png");
@@ -193,6 +221,7 @@ public class ResourcesManager {
         donutRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "donut.png");
         blueberryRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "blueberry.png");
         attackRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "attack.png");
+        progressBarRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "bar_top.png");
 
         try {
             this.bg.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));

@@ -1,11 +1,12 @@
-package lv.aaa.Hedgehogs;
+package lv.aaa.Hedgehogs.board;
 
+import lv.aaa.Hedgehogs.GameController;
+import lv.aaa.Hedgehogs.ResourcesManager;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.StrokeFont;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 public class CellText extends Sprite {
@@ -13,12 +14,12 @@ public class CellText extends Sprite {
     public CellText(float pX, float pY, ITextureRegion pTextureRegion,
                     VertexBufferObjectManager pVertexBufferObjectManager, Scene scene, String code) {
         super(pX, pY, GameController.CELL_SIZE, GameController.CELL_SIZE, pTextureRegion, pVertexBufferObjectManager);
-        StrokeFont fontAdOneToNoone = ResourcesManager.getInstance().getFontAdOneToNoone();
+        StrokeFont fontAdOneToNoone = ResourcesManager.getInstance().getFontAdOneToNoone36();
         fontAdOneToNoone.prepareLetters("1234567890".toCharArray());
         Text text = new Text(GameController.CELL_SIZE / 2, GameController.CELL_SIZE / 2 - 1,
                 fontAdOneToNoone, "0", 1, ResourcesManager.getInstance().vbom);
         String[] splitted = code.split("-");
-        TextureRegion toAdd = null;
+        ITextureRegion toAdd = null;
         if (splitted[0].equals("x")) {
             toAdd = ResourcesManager.getInstance().getAttackRegion();
             splitted[0] = "";
