@@ -20,7 +20,10 @@ public class GameController extends BaseGameActivity {
     public static final int CAMERA_WIDTH = 480;
     public static final int CAMERA_HEIGHT = 800;
 
+    public static final int MINES_COUNT = 10;
     public static final float CELL_SIZE = 60;
+    public static final int CELL_COUNT_ROW = 6;
+
 
     private final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
