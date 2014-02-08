@@ -3,6 +3,7 @@ package lv.aaa.Hedgehogs;
 import android.opengl.GLES20;
 import android.widget.Toast;
 import lv.aaa.Hedgehogs.scenes.GameScene;
+import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
@@ -63,8 +64,8 @@ public class CellPopup extends Sprite {
                 if (GameController.isTouchPausePassed()) {
 //                    TODO
                     if (currentCell != null) {
-                        new Cell(currentCell.getX(), currentCell.getY(), ResourcesManager.getInstance().getCellPressedRegion(),
-                                ResourcesManager.getInstance().vbom, scene);
+                        new CellText(currentCell.getX(), currentCell.getY(), ResourcesManager.getInstance().getCellPressedRegion(),
+                                ResourcesManager.getInstance().vbom, scene, "0");
                         scene.detachChild(currentCell);
                         CellPopup.this.hidePopup();
                     }

@@ -31,8 +31,8 @@ public class Board {
                             ResourcesManager.getInstance().vbom, scene);
                     this.scene.registerTouchArea(cell);
                 } else {
-                    new Cell(GameController.CELL_SIZE * x, -GameController.CELL_SIZE * y, ResourcesManager.getInstance().getCellPressedRegion(),
-                            ResourcesManager.getInstance().vbom, scene);
+                    new CellText(GameController.CELL_SIZE * x, -GameController.CELL_SIZE * y, ResourcesManager.getInstance().getCellPressedRegion(),
+                            ResourcesManager.getInstance().vbom, scene, board[y][x]);
                 }
             }
         }
@@ -42,12 +42,12 @@ public class Board {
 //        TODO RETRIEVE JSON FROM SERVER
         String json = "{\"size\":6," +
                 "\"data\":[" +
-                "[\"1\",\"c\",\"1\",\"c\",\"0\",\"0\"]," +
+                "[\"1\",\"c\",\"1-a\",\"c\",\"0\",\"0-c\"]," +
                 "[\"c\",\"x\",\"c\",\"c\",\"c\",\"0\"]," +
-                "[\"c\",\"3\",\"3\",\"c\",\"c\",\"c\"]," +
-                "[\"c\",\"c\",\"c\",\"c\",\"c\",\"0\"]," +
+                "[\"c\",\"3\",\"3-b\",\"c\",\"c\",\"c\"]," +
+                "[\"c\",\"c\",\"c\",\"x\",\"c\",\"0\"]," +
                 "[\"c\",\"x\",\"c\",\"c\",\"c\",\"c\"]," +
-                "[\"c\",\"2\",\"2\",\"1\",\"c\",\"0\"]" +
+                "[\"c\",\"2-b\",\"2\",\"1-c\",\"c\",\"0-a\"]" +
                 "]}";
 
         JSONParser parser = new JSONParser();
