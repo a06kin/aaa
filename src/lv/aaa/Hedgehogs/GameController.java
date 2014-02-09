@@ -24,12 +24,14 @@ public class GameController extends BaseGameActivity {
     public static final int CELL_COUNT_ROW = 6;
     public static final float CELL_SIZE = 60;
 
+    private static final int CLICK_DELAY = 250;
 
     private final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
     @Override
     public EngineOptions onCreateEngineOptions() {
-        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
+                new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
         engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
         engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
         engineOptions.getTouchOptions().setNeedsMultiTouch(false);
@@ -73,9 +75,10 @@ public class GameController extends BaseGameActivity {
     }
 
     public static long lDateTime = new Date().getTime();
-    public static boolean isTouchPausePassed(){
+
+    public static boolean isTouchPausePassed() {
         long lDateCurrentTime = new Date().getTime();
-        if(lDateCurrentTime - lDateTime > 250) {
+        if (lDateCurrentTime - lDateTime > CLICK_DELAY) {
             lDateTime = lDateCurrentTime;
             return true;
         }
