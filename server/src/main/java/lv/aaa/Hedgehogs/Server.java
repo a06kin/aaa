@@ -8,7 +8,7 @@ public class Server {
     public static void main(String args[]){
         Config.Builder b = new Config.Builder();
         b.resource(HedgehogsManagedService.class)
-                .resource("./webapps")
+                .resource(GameService.class)
                 .port(8080)
                 .host("127.0.0.1")
                 .build();
