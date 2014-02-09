@@ -17,13 +17,19 @@ import java.util.Date;
 
 public class GameController extends BaseGameActivity {
 
-    public static final int CAMERA_WIDTH = 800;
-    public static final int CAMERA_HEIGHT = 480;
+    public static final int CAMERA_WIDTH = 480;
+    public static final int CAMERA_HEIGHT = 800;
+
+    public static final int MINES_COUNT = 8;
+    public static final int CELL_COUNT_ROW = 6;
+    public static final float CELL_SIZE = 60;
+
+
     private final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
     @Override
     public EngineOptions onCreateEngineOptions() {
-        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+        EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
         engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
         engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
         engineOptions.getTouchOptions().setNeedsMultiTouch(false);

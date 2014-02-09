@@ -2,6 +2,9 @@ package lv.aaa.Hedgehogs;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.font.StrokeFont;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -10,7 +13,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
@@ -23,9 +26,16 @@ public class ResourcesManager {
     public Camera camera;
     public VertexBufferObjectManager vbom;
 
-    private BuildableBitmapTextureAtlas cellBackGrounds;
+    private BuildableBitmapTextureAtlas cellBackgrounds;
     private BuildableBitmapTextureAtlas menuTextureAtlas;
+    private BuildableBitmapTextureAtlas bg;
     private BitmapTextureAtlas splashTextureAtlas;
+
+    private ITextureRegion menuBgRegion;
+    private ITextureRegion playButtonRegion;
+    private ITextureRegion optionsButtonRegion;
+    private ITextureRegion exitButtonRegion;
+
     private ITextureRegion splashRegion;
     private ITextureRegion cellRegion;
     private ITextureRegion cellPressedRegion;
@@ -33,16 +43,75 @@ public class ResourcesManager {
     private ITextureRegion flagRegion;
     private ITextureRegion checkRegion;
 
-    public TextureRegion getSpark1Region() {
+    private ITextureRegion gameBgRegion;
+    private ITextureRegion boardBgRegion;
+    private ITextureRegion spark1Region;
+    private ITextureRegion spark2Region;
+
+    private ITextureRegion cakeRegion;
+    private ITextureRegion donutRegion;
+    private ITextureRegion blueberryRegion;
+    private ITextureRegion attackRegion;
+    private ITextureRegion progressBarRegion;
+
+    private StrokeFont fontAdOneToNoone36;
+    private Font fontAdOneToNoone6;
+
+    private TiledTextureRegion loadingRegion;
+
+    private TiledTextureRegion playerRegion;
+
+    public TiledTextureRegion getLoadingRegion() {
+        return loadingRegion;
+    }
+
+    public TiledTextureRegion getPlayerRegion() {
+        return playerRegion;
+    }
+
+    public Font getFontAdOneToNoone6() {
+        return fontAdOneToNoone6;
+    }
+
+    public StrokeFont getFontAdOneToNoone36() {
+        return fontAdOneToNoone36;
+    }
+
+    public ITextureRegion getProgressBarRegion() {
+        return progressBarRegion;
+    }
+
+    public ITextureRegion getAttackRegion() {
+        return attackRegion;
+    }
+
+    public ITextureRegion getDonutRegion() {
+        return donutRegion;
+    }
+
+    public ITextureRegion getCakeRegion() {
+        return cakeRegion;
+    }
+
+    public ITextureRegion getBlueberryRegion() {
+        return blueberryRegion;
+    }
+
+    public ITextureRegion getGameBgRegion() {
+        return gameBgRegion;
+    }
+
+    public ITextureRegion getBoardBgRegion() {
+        return boardBgRegion;
+    }
+
+    public ITextureRegion getSpark1Region() {
         return spark1Region;
     }
 
-    public TextureRegion getSpark2Region() {
+    public ITextureRegion getSpark2Region() {
         return spark2Region;
     }
-
-    private TextureRegion spark1Region;
-    private TextureRegion spark2Region;
 
     public ITextureRegion getCellRegion() {
         return cellRegion;
@@ -64,10 +133,6 @@ public class ResourcesManager {
         return checkRegion;
     }
 
-    public BuildableBitmapTextureAtlas getCellBackGrounds() {
-        return cellBackGrounds;
-    }
-
     public ITextureRegion getMenuBgRegion() {
         return menuBgRegion;
     }
@@ -87,11 +152,6 @@ public class ResourcesManager {
     public ITextureRegion getSplashRegion() {
         return splashRegion;
     }
-
-    private ITextureRegion menuBgRegion;
-    private ITextureRegion playButtonRegion;
-    private ITextureRegion optionsButtonRegion;
-    private ITextureRegion exitButtonRegion;
 
     public void loadMenuResources() {
         loadMenuGraphics();
@@ -127,19 +187,48 @@ public class ResourcesManager {
 
     private void loadGameGraphics() {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-        cellBackGrounds = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-        cellRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "cell.png");
-        cellPressedRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "cell_pressed.png");
-        cellHoverRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "selection.png");
-        flagRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "flag.png");
-        checkRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "check.png");
-        spark1Region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "spark1.png");
-        spark2Region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackGrounds, gameController, "spark2.png");
+        FontFactory.setAssetBasePath("fonts/");
+
+        BitmapTextureAtlas fontAdOneToNooneTexture = new BitmapTextureAtlas(gameController.getTextureManager(),
+                1024, 128, TextureOptions.BILINEAR);
+        fontAdOneToNoone36 = FontFactory.createStrokeFromAsset(gameController.getFontManager(),
+                fontAdOneToNooneTexture, gameController.getAssets(), "AnOdeToNoone.ttf", 36, true,
+                android.graphics.Color.WHITE, 1, android.graphics.Color.rgb(0, 0, 0));
+        fontAdOneToNoone36.load();
+        BitmapTextureAtlas fontAdOneToNooneTexture2 = new BitmapTextureAtlas(gameController.getTextureManager(),
+                128, 128, TextureOptions.BILINEAR);
+        fontAdOneToNoone6 = FontFactory.createFromAsset(gameController.getFontManager(), fontAdOneToNooneTexture2,
+                gameController.getAssets(), "AnOdeToNoone.ttf", 12, true, android.graphics.Color.WHITE);
+        fontAdOneToNoone6.load();
+        fontAdOneToNooneTexture.load();
+        fontAdOneToNooneTexture2.load();
+
+        bg = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+        gameBgRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bg, gameController, "game_bg.png");
+        loadingRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bg, gameController, "loading.png", 4, 1);
+        playerRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bg, gameController, "player.png", 3, 4);
+
+        cellBackgrounds = new BuildableBitmapTextureAtlas(gameController.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+        cellRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "cell.png");
+        cellPressedRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "cell_pressed.png");
+        cellHoverRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "selection.png");
+        flagRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "flag.png");
+        checkRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "check.png");
+        spark1Region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "spark1.png");
+        spark2Region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "spark2.png");
+        boardBgRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "board_bg.png");
+        cakeRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "cake.png");
+        donutRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "donut.png");
+        blueberryRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "blueberry.png");
+        attackRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "attack.png");
+        progressBarRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cellBackgrounds, gameController, "bar_top.png");
+
         try {
-            this.cellBackGrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 1));
-            this.cellBackGrounds.load();
-        }
-        catch (final ITextureAtlasBuilder.TextureAtlasBuilderException e) {
+            this.bg.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+            this.bg.load();
+            this.cellBackgrounds.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 1));
+            this.cellBackgrounds.load();
+        } catch (final ITextureAtlasBuilder.TextureAtlasBuilderException e) {
             Debug.e(e);
         }
     }

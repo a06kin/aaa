@@ -4,7 +4,6 @@ import android.os.Process;
 import lv.aaa.Hedgehogs.GameController;
 import lv.aaa.Hedgehogs.ScenesManager;
 import lv.aaa.Hedgehogs.SpriteButton;
-import lv.aaa.Hedgehogs.scenes.BaseScene;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
@@ -23,7 +22,7 @@ public class MenuScene extends BaseScene {
                 GameController.CAMERA_HEIGHT * 0.5f, GameController.CAMERA_WIDTH, GameController.CAMERA_HEIGHT,
                 resourcesManager.getMenuBgRegion(), vbom));
 
-        this.play = new SpriteButton(0, 70, resourcesManager.getPlayButtonRegion(), vbom) {
+        this.play = new SpriteButton(0, 70, 224, 45, resourcesManager.getPlayButtonRegion(), vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {
@@ -42,7 +41,7 @@ public class MenuScene extends BaseScene {
             }
         };
 
-        this.options = new SpriteButton(0, 0, resourcesManager.getOptionsButtonRegion(), vbom) {
+        this.options = new SpriteButton(0, 0, 224, 45, resourcesManager.getOptionsButtonRegion(), vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {
@@ -59,7 +58,7 @@ public class MenuScene extends BaseScene {
             }
         };
 
-        this.exit = new SpriteButton(0, -70, resourcesManager.getExitButtonRegion(), vbom) {
+        this.exit = new SpriteButton(0, -70, 224, 45, resourcesManager.getExitButtonRegion(), vbom) {
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX,
                                          final float pTouchAreaLocalY) {

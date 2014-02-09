@@ -1,14 +1,13 @@
 package lv.aaa.Hedgehogs;
 
-import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 public class SpriteButton extends Sprite {
 
-    public SpriteButton(float pX, float pY, ITextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager) {
-        super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
+    public SpriteButton(float pX, float pY, float width, float height, ITextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager) {
+        super(pX, pY, width, height, pTextureRegion, pVertexBufferObjectManager);
     }
 
     protected boolean isTouchInSpriteArea(float pTouchAreaLocalX, float pTouchAreaLocalY) {
